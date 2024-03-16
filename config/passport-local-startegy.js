@@ -3,41 +3,41 @@ const LocalStrategy = require("passport-local").Strategy;
 
 const User = require("../models/userSchema");
 
-const local = new LocalStrategy({ usernameField: "email" }, async function (
+const local = new LocalStrategy({ usernameField: "email" }, function (
   email,
   password,
   done
 ) {
-  try {
-    const user = await User.findOne({ email });
+  User.findOne({ email }, function (error, user) {
+    if (error) {
+      console.log(`Error in finding user: ${error}`);
+      return done(error);
+    }
+
     if (!user || !user.isPasswordCorrect(password)) {
       console.log("Invalid Username/Password");
       return done(null, false);
     }
     return done(null, user);
-  } catch (error) {
-    console.log(`Error in finding user: ${error}`);
-    return done(error);
-  }
+  });
 });
 
 passport.use("local", local);
 
-// serialize user
+//serialize user
 passport.serializeUser(function (user, done) {
   done(null, user.id);
 });
 
-// deserialize user
+//deserialize user
 passport.deserializeUser(function (id, done) {
-  User.findById(id)
-    .then((user) => {
-      return done(null, user);
-    })
-    .catch((err) => {
+  User.findById(id, function (err, user) {
+    if (err) {
       console.log("Error in finding user--> Passport");
       return done(err);
-    });
+    }
+    return done(null, user);
+  });
 });
 
 // check if user is authenticated
