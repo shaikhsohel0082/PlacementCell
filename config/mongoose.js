@@ -1,7 +1,12 @@
 const mongoose = require('mongoose');
 const dotenv = require('dotenv').config({ path: 'config/.env' });
 mongoose.set("strictQuery", false);
-mongoose.connect(process.env.MONGO_URL);
+mongoose.connect(process.env.MONGO_URL,{
+  useNewUrlParser: true,
+  useUnifiedTopology: true,
+  ssl: true,
+  tlsInsecure: true
+});
 
 const db = mongoose.connection;
 
