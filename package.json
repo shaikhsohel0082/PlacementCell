@@ -16,7 +16,11 @@
     "express-session": "^1.18.0",
     "fast-csv": "^5.0.1",
     "fs": "^0.0.1-security",
+<<<<<<< HEAD
     "mongoose": "^6.0.0",
+=======
+    "mongoose": "^5.9.20",
+>>>>>>> 725668c499843ee46298a09cfc0ed9e7c3251d3e
     "nodemon": "^3.1.0",
     "passport": "^0.7.0",
     "passport-local": "^1.0.0"
